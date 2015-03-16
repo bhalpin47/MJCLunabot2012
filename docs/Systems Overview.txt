@@ -1,0 +1,43 @@
+~*Electrical and Control Systems Overview*~
+Operating System: Linux or Andriod
+Onboard: Goal; minimal processing
+	Processing: Android, or Xbee(if the android can broadcast its own network)
+		1. Network Communications
+		2. Motor Control
+			a. Mobility
+			b. Excavation
+		3. Sensing
+			a. RX for Psuedo GPS
+			b. Motor speed(Stepper motors?)
+			c. Position of excavation system
+			d. Payload measuremt
+			e. Clutch break
+			c. Circuit Sensing
+				i. Current draw
+				ii.Battery Monitor
+			
+Hopper: Attempt to run majority of processing on hopper
+	Processing: Android, Router for network broadcasting
+		1. Network Communications
+			a. to/from robot	
+			b. to command center
+		2. Sensory(Psuedo-GPS)
+			a. TX
+		3. Optical: Initial Mapping/Positioning redundancy
+			a. Android camera module?
+			b. Accelerometer
+			c. Static height
+		4. Navigation: Autonomous and User Interface
+			a. Fully autonomous navigation(time permitting)
+			b. User input(If autonomy fails)
+		5. Motor control(assuming a stationary secondary hopper)
+		
+~*Order of Operations*~
+1. Sense initial position/orientation
+2. Read/Interperet camera input
+3. Plot path through obstacle region
+4. Determine excavation location?
+5. Run Excavation Cycle
+6. Reverse path to hopper
+7. Run Evacuation cycle
+8. Repeat
