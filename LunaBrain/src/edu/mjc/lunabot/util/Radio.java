@@ -1,5 +1,11 @@
 package edu.mjc.lunabot.util;
 
+/**
+ * Represents a transceiver module used for triangulation in the LAOPS system
+ * @author Brandon Halpin
+ *
+ */
+
 public class Radio extends Centroid{
 	private int address;									//The Pin Serial Address
 	private int  partner_address;							//Partner Address [Tx/Rx Pair]

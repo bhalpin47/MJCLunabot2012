@@ -1,6 +1,6 @@
 package edu.mjc.lunabot.util;
 /*
- * A class to represent the center point for the transceiver modules
+ * A class to represent the center point between the transceiver modules
  * 
  */
 import java.util.*;

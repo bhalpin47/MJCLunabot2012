@@ -17,8 +17,7 @@ import edu.mjc.lunabot.util.Orientation;
 public class Navigation{
 	
 	/*File stream*/
-	public FileIO io = new FileIO((new Date().toString().replace(":", "-").replace(" ", "_"))
-				+"nav.log", this);
+	public FileIO io;
     
     /* Static arena data */
     public final double arenaWidth = 388;
@@ -56,8 +55,17 @@ public class Navigation{
     public Navigation(){
         this.bot = new Robot(new Orientation(start, 270));
         pathFinder = new PathFinder(this);
+        io = new FileIO((new Date().toString().replace(":", "-").replace(" ", "_"))
+				+"nav.log", this);
     }
 
+    public Navigation(String fileName){
+        this.bot = new Robot(new Orientation(start, 270));
+        pathFinder = new PathFinder(this);
+        io = new FileIO(fileName, this);
+        System.out.println();
+        //TODO
+    }
     
     public Navigation(Robot bot){
         this.bot = bot;

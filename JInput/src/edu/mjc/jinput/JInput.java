@@ -1,5 +1,5 @@
 
-
+package edu.mjc.jinput;
 import java.util.ArrayList;
 
 import net.java.games.input.Component;
@@ -12,13 +12,14 @@ import net.java.games.input.ControllerEnvironment;
  * @author Brandon
  */
 public class JInput {
-    
+    //indices for analog controller inputs
     public static int Y_AXIS = 0;
     public static int X_AXIS = 1;
     public static int Y_ROT = 2;
     public static int X_ROT = 3;
     public static int Z_AXIS = 4;
     
+    //indices for digital controller inputs
     public static int A_BUTTON = 0;
     public static int B_BUTTON = 1;
     public static int X_BUTTON = 2;
@@ -30,38 +31,47 @@ public class JInput {
     public static int L_CLICK = 8;
     public static int R_CLICK = 9;
     
-    
+    //reference to xbox controller
     private Controller xBox = null;
+    
+    // containers for analog and digital components 
     private ArrayList<Component> analog;
     private ArrayList<Component> digital;
+    
+    // arrays storing last values read from components
     private float[] analogVals;
     private boolean[] digitalVals;
     
     /**
-     * creates an instance of JInput which identifies an xbox controller
-     * as well as all of its components separated by analog and digital.
+     * Contructor for JInput:
+     * Selects the first xbox controller to be connected(or any controller of type GAMEPAD)
+     * and identifies all of its components.
+     * 
+     * Controller will be assigned to xBox variable
+     * Components will be stored in analog and digital ArrayLists
+     * 
+     * If no controller is found, devices will be updated every 2s 
+     * until a controller is identified
      *
      */
-    public JInput(){
-    	//System.loadLibrary("jinput-dx8-64");
-    	// run config -Djava.library.path="${workspace_loc:JInput}\lib;${env_var:PATH}"
-    	//System.out.println(System.getProperty("java.library.path"));
-        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-        while(controllers.length < 1 || xBox == null){
-        	controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-        	for (int i = 0; i < controllers.length; i++) {
-                System.out.println("Device " + i + ":" +controllers[i].getName() + " : " +
-                		controllers[i].getType());
-
-                if (controllers[i].getType() == Controller.Type.GAMEPAD) {
+    public JInput(){    	
+        Controller[] controllers; 
+        while(xBox == null){		// loop until controller is found
+        	controllers = ControllerEnvironment.
+        			getDefaultEnvironment().getControllers(); //initial device check
+        	
+        	for (int i = 0; i < controllers.length; i++) { //loop over all devices
+                System.out.println("Device " + i + ":" + 
+                		controllers[i].getName() + " : " +
+                		controllers[i].getType());	//print each device
+                if (controllers[i].getType() == Controller.Type.GAMEPAD) {	//controller found
                     xBox = controllers[i];
                 }
             }
             
             
-            if(xBox == null){    
+            if(xBox == null){    //controller not found
                 System.out.println("Xbox controller not found, please plug in a controller!\n");
-         
             	try {
     				Thread.sleep(2000);
     			} catch (InterruptedException e) {
@@ -70,10 +80,12 @@ public class JInput {
     			}
             }
         }
+        // identify all components
         Component[] components = null;
+        components = xBox.getComponents();
         analog = new ArrayList<Component>();
         digital = new ArrayList<Component>();
-        components = xBox.getComponents();
+        //separate components by digital and analog
         for (int j = 0; j < components.length; j++) {
             if (components[j].isAnalog()) {
                 analog.add(components[j]);
@@ -81,11 +93,16 @@ public class JInput {
                 digital.add(components[j]);
             }
         }
+        // initialize arrays for storing component values
         analogVals = new float[analog.size()];
         digitalVals = new boolean[digital.size()];
         
     }
     
+    /**
+     * For testing
+     * 
+     */
     public static void main(String[] args){
         JInput j = new JInput();
         while(true){
@@ -93,10 +110,13 @@ public class JInput {
         }
     }
     
+    /**
+     * Polls the current values for each of the components and
+     * stores them in the analogVals and digitalVals arrays
+     */
     public void poll() {
     	if(xBox != null){
-	        xBox.poll();
-	        StringBuffer buffer = new StringBuffer();
+	        xBox.poll(); // updates values for all components
 	        for (int i = 0; i < analog.size(); i++) {
 	            analogVals[i] = analog.get(i).getPollData();
 	        }

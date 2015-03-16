@@ -1,6 +1,6 @@
 package edu.mjc.lunabot.util;
 /*
- * A class to represent a vector with it's
+ * A class to represent a vector with its
  * magnitude and angle
  * X and Y represent the components of a given vector
  * 
